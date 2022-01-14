@@ -3,6 +3,7 @@
     package="com.example.boredapiclient">
 
     <application
+        android:name=".presentation.BoredApiClientApp"
         android:allowBackup="true"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
