@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.boredapiclient.data.local.dao.ActivityDao
-import com.example.boredapiclient.data.local.entities.ActivityEntity
+import com.example.boredapiclient.data.local.entities.SavedActivityEntity
 
 @Database(
-    entities = [ActivityEntity::class],
+    entities = [SavedActivityEntity::class],
     version = 1
 )
 abstract class ActivitiesDB : RoomDatabase() {

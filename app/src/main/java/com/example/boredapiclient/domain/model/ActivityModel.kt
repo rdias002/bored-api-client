@@ -8,5 +8,6 @@ data class ActivityModel(
     val participants: Int,
     val price: Double,
     val link: String,
+    val markedAsDone: Boolean,
     val error: String? = null
 )

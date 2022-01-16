@@ -1,7 +1,7 @@
 package com.example.boredapiclient.domain.repository
 
+import com.example.boredapiclient.core.utils.Resource
 import com.example.boredapiclient.domain.model.ActivityModel
-import core.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface ActivityRepository {
@@ -15,4 +15,5 @@ interface ActivityRepository {
     fun getSavedActivities(): Flow<List<ActivityModel>>
     fun getSavedActivity(activityModel: ActivityModel): Flow<ActivityModel>
     fun deleteSavedActivity(activityModel: ActivityModel): Flow<Resource<String>>
+    fun markActivityAsDone(activityModel: ActivityModel): Flow<Resource<String>>
 }

@@ -1,12 +1,12 @@
 package com.example.boredapiclient.data.repository
 
+import com.example.boredapiclient.core.utils.Resource
 import com.example.boredapiclient.data.MappingExtensions.toActivityEntity
 import com.example.boredapiclient.data.MappingExtensions.toActivityModel
 import com.example.boredapiclient.data.local.dao.ActivityDao
 import com.example.boredapiclient.data.remote.BoredApi
 import com.example.boredapiclient.domain.model.ActivityModel
 import com.example.boredapiclient.domain.repository.ActivityRepository
-import core.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -19,7 +19,11 @@ class ActivityRepositoryImpl(
         emit(Resource.Loading())
         try {
             val activityModel = api.getRandomActivity().toActivityModel()
-            emit(Resource.Success(activityModel))
+            if (activityModel.error != null) {
+                emit(Resource.Error(activityModel.error, activityModel))
+            } else {
+                emit(Resource.Success(activityModel))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             emit(Resource.Error("Oops, something went wrong"))
@@ -40,7 +44,11 @@ class ActivityRepositoryImpl(
                 minPrice.takeIf { it < maxPrice && minPrice >= 0.0 },
                 maxPrice.takeIf { it > minPrice && maxPrice <= 1.0 }
             ).toActivityModel()
-            emit(Resource.Success(activityModel))
+            if (activityModel.error != null) {
+                emit(Resource.Error(activityModel.error, activityModel))
+            } else {
+                emit(Resource.Success(activityModel))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             emit(Resource.Error("Oops, something went wrong"))
@@ -68,5 +76,10 @@ class ActivityRepositoryImpl(
         emit(Resource.Success("Successfully deleted this activity"))
     }
 
+    override fun markActivityAsDone(activityModel: ActivityModel): Flow<Resource<String>> = flow {
+        emit(Resource.Loading())
+        dao.markActivityAsDone(activityModel.id)
+        emit(Resource.Success("Successfully marked as Completed"))
+    }
 
 }
